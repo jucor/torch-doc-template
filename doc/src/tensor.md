@@ -19,6 +19,7 @@ dimensions is unlimited that can be created using
 [LongStorage](storage.md) with more dimensions.
 
 Example:
+
 ```lua
  --- creation of a 4D-tensor 4x5x6x2
  z = torch.Tensor(4,5,6,2)
@@ -65,10 +66,12 @@ tensor
 x = torch.Tensor(7,7,7)
 ```
 accessing the element `(3,4,5)` can be done by
+
 ```lua
 = x[3][4][5]
 ```
 or equivalently (but slowly!)
+
 ```lua
 = x:storage()[x:storageOffset()
            +(3-1)*x:stride(1)+(4-1)*x:stride(2)+(5-1)*x:stride(3)]
@@ -76,6 +79,7 @@ or equivalently (but slowly!)
 One could say that a `Tensor` is a particular way of _viewing_ a
 `Storage`: a `Storage` only represents a chunk of memory, while the
 `Tensor` interprets this chunk of memory as having dimensions:
+
 ```lua
 > x = torch.Tensor(4,5)
 > s = x:storage()
@@ -92,6 +96,7 @@ One could say that a `Tensor` is a particular way of _viewing_ a
 
 Note also that in Torch7 ___elements in the same row___ [elements along the __last__ dimension]
 are contiguous in memory for a matrix [tensor]:
+
 ```lua
 > x = torch.Tensor(4,5)
 > i = 0
@@ -118,6 +123,7 @@ This is exactly like in C (and not `Fortran`).
 __Tensors of different types__
 
 Actually, several types of `Tensor` exists:
+
 ```lua
 ByteTensor -- contains unsigned chars
 CharTensor -- contains signed chars
@@ -135,6 +141,7 @@ __Default Tensor type__
 For convenience, _an alias_ `torch.Tensor` is provided, which allows the user to write
 type-independent scripts, which can then ran after choosing the desired Tensor type with
 a call like
+
 ```lua
 torch.setdefaulttensortype('torch.FloatTensor')
 ```
@@ -148,6 +155,7 @@ these methods transform the existing tensor, or return a new tensor
 referencing _the same storage_. This magical behavior is internally
 obtained by good usage of the [stride()](#torch.Tensor.stride) and
 [storageOffset()](#torch.Tensor.storageOffset). Example:
+
 ```lua
 > x = torch.Tensor(5):zero()
 > print(x)
@@ -169,10 +177,12 @@ obtained by good usage of the [stride()](#torch.Tensor.stride) and
 ```
 
 If you really need to copy a `Tensor`, you can use the [copy()](#torch.Tensor.copy) method:
+
 ```lua
 > y = torch.Tensor(x:size()):copy(x)
 ```
 Or the convenience method
+
 ```lua
 > y = x:clone()
 ```
@@ -249,11 +259,13 @@ are _negative_, the [stride()](#torch.Tensor.stride) will be
 computed such that the tensor is as contiguous as possible in memory.
 
 Example, create a 4D 4x4x3x2 tensor:
+
 ```lua
 x = torch.Tensor(torch.LongStorage({4,4,3,2}))
 ```
 
 Playing with the strides can give some interesting things:
+
 ```lua
 x = torch.Tensor(torch.LongStorage({4}), torch.LongStorage({0})):zero() -- zeroes the tensor
 x[1] = 1 -- all elements point to the same address!
@@ -334,8 +346,9 @@ returns a new Tensor of the size of the table, containing all the table
 elements. The table might be multi-dimensional.
 
 Example:
+
 ```lua
-> = torch.Tensor({{1,2,3,4}, {5,6,7,8}})
+> = torch.Tensor({ {1,2,3,4}, {5,6,7,8} })
  1  2  3  4
  5  6  7  8
 [torch.DoubleTensor of dimension 2x4]
@@ -517,6 +530,7 @@ y = x:type('torch.IntTensor')
 ### [Tensor] typeAs(tensor) ###
 
 Convenience method for the [type](#torch.Tensor.type) method. Equivalent to
+
 ```lua
 type(tensor:type())
 ```
@@ -532,6 +546,7 @@ type(tensor:type())
 <a name="torch.Tensor.float"/>
 
 Convenience methods for the [type](#torch.Tensor.type) method. For e.g.,
+
 ```lua
 x = torch.Tensor(3):fill(3.14)
 
@@ -565,6 +580,7 @@ x = torch.Tensor(3):fill(3.14)
 ### [number] nDimension() ###
 
 Returns the number of dimensions in a `Tensor`.
+
 ```lua
 > x = torch.Tensor(4,5) -- a matrix
 > = x:nDimension()
@@ -580,6 +596,7 @@ Same as [nDimension()](#torch.Tensor.nDimension).
 ### [number] size(dim) ###
 
 Returns the size of the specified dimension `dim`. Example:
+
 ```lua
 > x = torch.Tensor(4,5):zero()
 > print(x)
@@ -599,6 +616,7 @@ Returns the size of the specified dimension `dim`. Example:
 
 Returns a [LongStorage](storage.md) containing the size of each dimension
 of the tensor.
+
 ```lua
 > x = torch.Tensor(4,5):zero()
 > print(x)
@@ -625,6 +643,7 @@ Same as [size()](#torch.Tensor.size) method.
 
 Returns the jump necessary to go from one element to the next one in the
 specified dimension `dim`. Example:
+
 ```lua
 > x = torch.Tensor(4,5):zero()
 > print(x)
@@ -652,6 +671,7 @@ are contiguous in memory for a matrix [tensor].
 ### [LongStorage] stride() ###
 
 Returns the jump necessary to go from one element to the next one in each dimension. Example:
+
 ```lua
 > x = torch.Tensor(4,5):zero()
 > print(x)
@@ -676,6 +696,7 @@ are contiguous in memory for a matrix [tensor].
 
 Returns the [Storage](storage.md) used to store all the elements of the `Tensor`.
 Basically, a `Tensor` is a particular way of _viewing_ a `Storage`.
+
 ```lua
 > x = torch.Tensor(4,5)
 > s = x:storage()
@@ -695,6 +716,7 @@ Basically, a `Tensor` is a particular way of _viewing_ a `Storage`.
 ### [boolean] isContiguous() ###
 
 Returns `true` iff the elements of the `Tensor` are contiguous in memory.
+
 ```lua
   -- normal tensors are contiguous in memory
 > x = torch.Tensor(4,5):zero()
@@ -717,6 +739,7 @@ false
 ### [number] nElement() ###
 
 Returns the number of elements of a tensor.
+
 ```lua
 > x = torch.Tensor(4,5)
 > = x:nElement() -- 4x5 = 20!
@@ -747,6 +770,7 @@ specifying the position (in the Tensor) of the element to be
 retrieved.
 
 Example:
+
 ```lua
 > x = torch.Tensor(3,3)
 > i = 0; x:apply(function() i = i + 1; return i end)
@@ -782,12 +806,14 @@ A `Tensor` being a way of _viewing_ a [Storage](storage.md), it is
 possible to "set" a `Tensor` such that it views an existing [Storage](storage.md).
 
 Note that if you want to perform a set on an empty `Tensor` like
+
 ```lua
 y = torch.Storage(10)
 x = torch.Tensor()
 x:set(y, 1, 10)
 ```
 you might want in that case to use one of the [equivalent constructor](#torch.Tensor).
+
 ```lua
 y = torch.Storage(10)
 x = torch.Tensor(y, 1, 10)
@@ -907,6 +933,7 @@ which, of course, might result in loss of precision.
 ### [self] fill(value) ###
 
 Fill the tensor with the given `value`.
+
 ```lua
 > = torch.DoubleTensor(4):fill(3.14)
 
@@ -921,6 +948,7 @@ Fill the tensor with the given `value`.
 ### [self] zero() ###
 
 Fill the tensor with zeros.
+
 ```lua
 > = torch.Tensor(4):zero()
 
@@ -1437,6 +1465,7 @@ These methods are very fast, are they do not involve any memory copy.
 
 Returns a tensor where dimensions `dim1` and `dim2` have been swapped. For 2D tensors,
 the convenience method of [t()](#torch.Tensor.t) is available.
+
 ```lua
 > x = torch.Tensor(3,4):zero()                  
 > x:select(2,3):fill(7) -- fill column 3 with 7
@@ -1479,6 +1508,7 @@ the convenience method of [t()](#torch.Tensor.t) is available.
 
 Convenience method of [transpose()](#torch.Tensor.transpose) for 2D
 tensors. The given tensor must be 2 dimensional. Swap dimensions 1 and 2.
+
 ```lua
 > x = torch.Tensor(3,4):zero()
 > x:select(2,3):fill(7)
@@ -1558,6 +1588,7 @@ The function takes a number (the current element of the tensor) and might return
 a number, in which case it will be stored in self.
 
 Examples:
+
 ```lua
 > i = 0
 > z = torch.Tensor(3,3)
@@ -1600,6 +1631,7 @@ The function takes two numbers (the current element of self and `tensor`) and mi
 a number, in which case it will be stored in self.
 
 Example:
+
 ```lua
 > x = torch.Tensor(3,3)
 > y = torch.Tensor(9)
@@ -1646,6 +1678,7 @@ The function takes three numbers (the current element of self, `tensor1` and `te
 a number, in which case it will be stored in self.
 
 Example:
+
 ```lua
 > x = torch.Tensor(3,3)
 > y = torch.Tensor(9)

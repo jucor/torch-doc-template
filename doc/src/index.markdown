@@ -12,7 +12,7 @@ This template allows you to document your Torch package using [Github Flavoured 
 Four live examples:
 
 * this very page!
-* the rendering of [torch.Tensor documentation](Tensor.md) and [its raw source](https://www.github.com/jucor/torch-template-doc/doc/src/Tensor.md)
+* the rendering of [torch.Tensor documentation](tensor.md) and [its raw source](https://www.github.com/jucor/torch-template-doc/doc/src/tensor.md)
 * the [cephes package](http://jucor.github.io/torch-cephes)
 * the [randomkit package](http://jucor.github.io/torch-randomkit)
 

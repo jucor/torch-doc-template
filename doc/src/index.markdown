@@ -92,7 +92,7 @@ Now, everytime you have modified `doc/src`, updated locally the `doc/html` with 
 
     ```bash
     git checkout gh-pages
-    git merge -s subtree -X theirs -X subtree=doc/html master
+    git merge -X theirs -X subtree=doc/html master
     ```
 3. And push online:
 

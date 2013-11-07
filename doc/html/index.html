@@ -136,7 +136,7 @@ forbid plugins, i.e. no automatic Table of Contents, and would not allow you to 
 </code></pre></div></li>
 <li><p>Update the <code>gh-pages</code> with only the HTML part, automatically moved to the root, by:</p>
 <div class="highlight"><pre><code class="bash language-bash" data-lang="bash">git checkout gh-pages
-git merge -s subtree -X theirs -X <span class="nv">subtree</span><span class="o">=</span>doc/html master
+git merge -X theirs -X <span class="nv">subtree</span><span class="o">=</span>doc/html master
 </code></pre></div></li>
 <li><p>And push online:</p>
 <div class="highlight"><pre><code class="bash language-bash" data-lang="bash">git push -u origin gh-pages

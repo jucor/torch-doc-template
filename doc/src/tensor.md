@@ -1,3 +1,8 @@
+---
+title: Torch Tensor
+layout: doc
+---
+
 <a name="torch.Tensor.dok"/>
 # Tensor #
 

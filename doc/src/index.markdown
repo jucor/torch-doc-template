@@ -107,7 +107,7 @@ Your files will now be accessible at [http://yourlogin.github.io/yourrepository]
 To modify your documentation:
 
 * Change `index.markdown` and add any markdown or HTML files:
-    
+
     **Important**: Jekyll only converts and adds ToC to Markdown files that start with the header:
 
     ```yaml
@@ -118,10 +118,12 @@ To modify your documentation:
     ```
 
     If your Markdown files are not converted, make sure that you have added this header at the beginning. HTML files do not need this header.
+
 * `_layouts`: contains the template rendering, including the call to the table of contents plugin.
 * `Gemfile`: specifies which version of Jekyll and redcarpet to use, to ensure maximum rendering reproducibility.
 
-##Thanks
+
+##Going further
 
 * The [Torch team](http://torch.ch), for recently moving to MarkDown with their new distribution!
 * [Jekyll documentation](http://jekyllrb.com/docs/home/)

@@ -96,7 +96,7 @@ Now, everytime you have modified `doc/src` and updated locally the `doc/html` wi
 3. And push online:
 
     ```bash
-    git push
+    git push -u origin gh-pages
     ```
 
 Your files will now be accessible at [http://yourlogin.github.io/yourrepository](http://jucor.github.io/torch-randomkit).

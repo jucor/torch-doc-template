@@ -32,13 +32,13 @@ h3, h4, h5, h6 {
   color:#494949;
 }
 
-a {
+a[href] {
   color:#39c;
   font-weight:400;
   text-decoration:none;
 }
 
-a small {
+a[href] small {
   font-size:11px;
   color:#777;
   margin-top:-0.6em;

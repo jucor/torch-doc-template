@@ -36,7 +36,7 @@
 </ul>
 </li>
 <li>
-<a href="#toc_5">Update HTML documentation for local browsing</a>
+<a href="#toc_5">Generate HTML</a>
 </li>
 <li>
 <a href="#toc_6">Publish on Github Pages</a>
@@ -45,7 +45,7 @@
 <a href="#toc_7">First time only: create gh-pages branch</a>
 </li>
 <li>
-<a href="#toc_8">Push online</a>
+<a href="#toc_8">Merge and push online</a>
 </li>
 </ul>
 </li>
@@ -72,7 +72,7 @@
 
 <ul>
 <li>this very page!</li>
-<li>the rendering of <a href="Tensor.md">torch.Tensor documentation</a> and <a href="https://www.github.com/jucor/torch-template-doc/doc/src/Tensor.md">its raw source</a></li>
+<li>the rendering of <a href="tensor.md">torch.Tensor documentation</a> and <a href="https://www.github.com/jucor/torch-template-doc/doc/src/tensor.md">its raw source</a></li>
 <li>the <a href="http://jucor.github.io/torch-cephes">cephes package</a></li>
 <li>the <a href="http://jucor.github.io/torch-randomkit">randomkit package</a></li>
 </ul>
@@ -100,13 +100,13 @@ git merge -X ours template
 </code></pre></div>
 <p>This will create a folder <code>doc/src</code>, that you can edit, and <code>doc/html</code>, that will be automatically built by Jekyll and that you will then publish.</p>
 
-<h2 id="toc_5">Update HTML documentation for local browsing</h2>
+<h2 id="toc_5">Generate HTML</h2>
 
-<p>After editting your Markdown files in <code>doc/src</code>, you want to update the browseable <code>doc/html</code> to be provided with your Torch package, by building the pages locally:</p>
+<p>After editting your Markdown files in <code>doc/src</code>, you need to convert it to HTML locally, with automatic Table of Contents, styles and layouts, using Jekyll: </p>
 <div class="highlight"><pre><code class="bash language-bash" data-lang="bash"><span class="nb">cd </span>doc/src
 bundle <span class="nb">exec </span>jekyll build --destination ../html
 </code></pre></div>
-<p>Your users can now browse your documentation with their browser, opening at [doc/src/index.html].</p>
+<p>Your users can now browse your documentation with their browser, opening [doc/src/index.html], and you can distribute it along with your package.</p>
 
 <blockquote>
 <p><strong>Optional but convenient</strong>: while you edit, Jekyll can dynamically build your pages, refresh them, and serve them to <a href="http://localhost:4000">http://localhost:4000</a>:</p>
@@ -126,9 +126,9 @@ forbid plugins, i.e. no automatic Table of Contents, and would not allow you to 
 <p>Create a branch named <code>gh-pages</code>, where <a href="https://help.github.com/articles/user-organization-and-project-pages">Github Project Pages for content</a>. The <code>git subtree</code> command moves all files from <code>doc/html</code> to the root of the <code>gh-pages</code> branch.</p>
 <div class="highlight"><pre><code class="bash language-bash" data-lang="bash">git subtree split --prefix doc/html --branch gh-pages
 </code></pre></div>
-<h3 id="toc_8">Push online</h3>
+<h3 id="toc_8">Merge and push online</h3>
 
-<p>Now, everytime you have modified <code>doc/src</code> and updated locally the <code>doc/html</code> with Jekyll in your <code>master</code> branch, you just:</p>
+<p>Now, everytime you have modified <code>doc/src</code>, updated locally the <code>doc/html</code> with Jekyll, <b>and committed both to your <code>master</code> branch</b>, you just:</p>
 
 <ol>
 <li><p>Commit to your <code>master</code> branch the changes you just made:</p>
@@ -166,6 +166,7 @@ git merge -s subtree -X theirs -X <span class="nv">subtree</span><span class="o"
 <h2 id="toc_10">Thanks</h2>
 
 <ul>
+<li>The <a href="http://torch.ch">Torch team</a>, for recently moving to MarkDown with their new distribution!</li>
 <li><a href="http://jekyllrb.com/docs/home/">Jekyll documentation</a></li>
 <li><a href="https://help.github.com/articles/using-jekyll-with-pages">Using Jekyll with Github pages</a></li>
 <li><a href="http://jekyll.alphavice.com/source/_plugins">FancyToC with Redcarpet plugin</a> -- smart way to call Redcarpet&#39;s ToC generator from Jekyll</li>

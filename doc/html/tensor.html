@@ -1,0 +1,1844 @@
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Torch Tensor</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+  </head>
+  <body>
+
+      <div class="wrapper">
+          <header>
+          <div id="navcontainer">
+          <ul>
+<li>
+<a href="#toc_0">Tensor</a>
+<ul>
+<li>
+<a href="#toc_1">Tensor constructors</a>
+<ul>
+<li>
+<a href="#toc_2">torch.Tensor()</a>
+</li>
+<li>
+<a href="#toc_3">torch.Tensor(tensor)</a>
+</li>
+<li>
+<a href="#toc_4">torch.Tensor(sz1 [,sz2 [,sz3 [,sz4]]]])</a>
+</li>
+<li>
+<a href="#toc_5">torch.Tensor(sizes, [strides])</a>
+</li>
+<li>
+<a href="#toc_6">torch.Tensor(storage, [storageOffset, sizes, [strides]])</a>
+</li>
+<li>
+<a href="#toc_7">torch.Tensor(storage, [storageOffset, sz1 [, st1 ... [, sz4 [, st4]]]])</a>
+</li>
+<li>
+<a href="#toc_8">torch.Tensor(table)</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_9">Cloning</a>
+<ul>
+<li>
+<a href="#toc_10">[Tensor] clone()</a>
+</li>
+<li>
+<a href="#toc_11">[Tensor] contiguous</a>
+</li>
+<li>
+<a href="#toc_12">[Tensor or string] type(type)</a>
+</li>
+<li>
+<a href="#toc_13">[Tensor] typeAs(tensor)</a>
+</li>
+<li>
+<a href="#toc_14">[Tensor] byte(), char(), short(), int(), long(), float(), double()</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_15">Querying the size and structure</a>
+<ul>
+<li>
+<a href="#toc_16">[number] nDimension()</a>
+</li>
+<li>
+<a href="#toc_17">[number] dim()</a>
+</li>
+<li>
+<a href="#toc_18">[number] size(dim)</a>
+</li>
+<li>
+<a href="#toc_19">[LongStorage] size()</a>
+</li>
+<li>
+<a href="#toc_20">[LongStorage] #self</a>
+</li>
+<li>
+<a href="#toc_21">[number] stride(dim)</a>
+</li>
+<li>
+<a href="#toc_22">[LongStorage] stride()</a>
+</li>
+<li>
+<a href="#toc_23">[Storage] storage()</a>
+</li>
+<li>
+<a href="#toc_24">[boolean] isContiguous()</a>
+</li>
+<li>
+<a href="#toc_25">[number] nElement()</a>
+</li>
+<li>
+<a href="#toc_26">[number] storageOffset()</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_27">Querying elements</a>
+</li>
+<li>
+<a href="#toc_28">Referencing a tensor to an existing tensor or chunk of memory</a>
+<ul>
+<li>
+<a href="#toc_29">[self] set(tensor)</a>
+</li>
+<li>
+<a href="#toc_30">[self] set(storage, [storageOffset, sizes, [strides]])</a>
+</li>
+<li>
+<a href="#toc_31">[self] set(storage, [storageOffset, sz1 [, st1 ... [, sz4 [, st4]]]])</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_32">Copying and initializing</a>
+<ul>
+<li>
+<a href="#toc_33">[self] copy(tensor)</a>
+</li>
+<li>
+<a href="#toc_34">[self] fill(value)</a>
+</li>
+<li>
+<a href="#toc_35">[self] zero()</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_36">Resizing</a>
+<ul>
+<li>
+<a href="#toc_37">[self] resizeAs(tensor)</a>
+</li>
+<li>
+<a href="#toc_38">[self] resize(sizes)</a>
+</li>
+<li>
+<a href="#toc_39">[self] resize(sz1 [,sz2 [,sz3 [,sz4]]]])</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_40">Extracting sub-tensors</a>
+<ul>
+<li>
+<a href="#toc_41">[Tensor] narrow(dim, index, size)</a>
+</li>
+<li>
+<a href="#toc_42">[Tensor] sub(dim1s, dim1e ... [, dim4s [, dim4e]])</a>
+</li>
+<li>
+<a href="#toc_43">[Tensor] select(dim, index)</a>
+</li>
+<li>
+<a href="#toc_44">[Tensor] [{ dim1,dim2,... }] or [{ {dim1s,dim1e}, {dim2s,dim2e} }]</a>
+</li>
+<li>
+<a href="#toc_45">[Tensor] index(dim, index)</a>
+</li>
+<li>
+<a href="#toc_46">[Tensor] indexCopy(dim, index, tensor)</a>
+</li>
+<li>
+<a href="#toc_47">[Tensor] indexFill(dim, index, val)</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_48">Expanding/Replicating Tensors</a>
+<ul>
+<li>
+<ul>
+<li>
+<a href="#toc_49">[Tensor] expand(sizes)</a>
+</li>
+<li>
+<a href="#toc_50">[Tensor] expandAs(tensor)</a>
+</li>
+<li>
+<a href="#toc_51">[Tensor] repeatTensor(sizes)</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_52">Manipulating the tensor view</a>
+<ul>
+<li>
+<a href="#toc_53">[Tensor] transpose(dim1, dim2)</a>
+</li>
+<li>
+<a href="#toc_54">[Tensor] t()</a>
+</li>
+<li>
+<a href="#toc_55">[Tensor] unfold(dim, size, step)</a>
+</li>
+</ul>
+</li>
+<li>
+<a href="#toc_56">Applying a function to a tensor</a>
+<ul>
+<li>
+<a href="#toc_57">[self] apply(function)</a>
+</li>
+<li>
+<a href="#toc_58">[self] map(tensor, function(xs, xt))</a>
+</li>
+<li>
+<a href="#toc_59">[self] map2(tensor1, tensor2, function(x, xt1, xt2))</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+          </header>
+          <section>
+          <p><a name="torch.Tensor.dok"/></p>
+
+<h1 id="toc_0">Tensor</h1>
+
+<p>The <code>Tensor</code> class is probably the most important class in
+<code>Torch</code>. Almost every package depends on this class. It is <em><strong>the</strong></em>
+class for handling numeric data. As with   pretty much anything in
+<a href="./../index.md">Torch7</a>, tensors are
+<a href="file.md#torch.File.serialization">serializable</a>.</p>
+
+<p><strong>Multi-dimensional matrix</strong></p>
+
+<p>A <code>Tensor</code> is a potentially multi-dimensional matrix. The number of
+dimensions is unlimited that can be created using
+<a href="storage.md">LongStorage</a> with more dimensions.</p>
+
+<p>Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"> <span class="c1">--- creation of a 4D-tensor 4x5x6x2</span>
+ <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+ <span class="c1">--- for more dimensions, (here a 6D tensor) one can do:</span>
+ <span class="n">s</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+ <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="n">s</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span> <span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">s</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span> <span class="n">s</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+ <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div>
+<p>The number of dimensions of a <code>Tensor</code> can be queried by
+<a href="#torch.Tensor.nDimension">nDimension()</a> or
+<a href="#torch.Tensor.dim">dim()</a>. Size of the <code>i-th</code> dimension is
+returned by <a href="#torch.Tensor.size">size(i)</a>. A <a href="storage.md">LongStorage</a>
+containing all the dimensions can be returned by
+<a href="#torch.Tensor.size">size()</a>.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="n">nDimension</span><span class="p">())</span>
+<span class="mi">6</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="n">size</span><span class="p">())</span>
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+ <span class="mi">6</span>
+ <span class="mi">2</span>
+ <span class="mi">7</span>
+ <span class="mi">3</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">6</span><span class="p">]</span>
+</code></pre></div>
+<p><strong>Internal data representation</strong></p>
+
+<p>The actual data of a <code>Tensor</code> is contained into a
+<a href="storage.md">Storage</a>. It can be accessed using
+<a href="#torch.Tensor.storage"><code>storage()</code></a>. While the memory of a
+<code>Tensor</code> has to be contained in this unique <code>Storage</code>, it might
+not be contiguous: the first position used in the <code>Storage</code> is given
+by <a href="#torch.Tensor.storageOffset"><code>storageOffset()</code></a> (starting at
+<code>1</code>). And the <em>jump</em> needed to go from one element to another
+element in the <code>i-th</code> dimension is given by
+<a href="#torch.Tensor.stride"><code>stride(i)</code></a>. In other words, given a 3D
+tensor</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+</code></pre></div>
+<p>accessing the element <code>(3,4,5)</code> can be done by</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">4</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
+</code></pre></div>
+<p>or equivalently (but slowly!)</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">storage</span><span class="p">()[</span><span class="n">x</span><span class="p">:</span><span class="n">storageOffset</span><span class="p">()</span>
+           <span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">:</span><span class="n">stride</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="mi">4</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">:</span><span class="n">stride</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="mi">5</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="p">:</span><span class="n">stride</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+</code></pre></div>
+<p>One could say that a <code>Tensor</code> is a particular way of <em>viewing</em> a
+<code>Storage</code>: a <code>Storage</code> only represents a chunk of memory, while the
+<code>Tensor</code> interprets this chunk of memory as having dimensions:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">storage</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="p">:</span><span class="n">size</span><span class="p">()</span> <span class="k">do</span> <span class="c1">-- fill up the Storage</span>
+<span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+<span class="o">&gt;&gt;</span> <span class="k">end</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">-- s is interpreted by x as a 2D matrix</span>
+  <span class="mi">1</span>   <span class="mi">2</span>   <span class="mi">3</span>   <span class="mi">4</span>   <span class="mi">5</span>
+  <span class="mi">6</span>   <span class="mi">7</span>   <span class="mi">8</span>   <span class="mi">9</span>  <span class="mi">10</span>
+ <span class="mi">11</span>  <span class="mi">12</span>  <span class="mi">13</span>  <span class="mi">14</span>  <span class="mi">15</span>
+ <span class="mi">16</span>  <span class="mi">17</span>  <span class="mi">18</span>  <span class="mi">19</span>  <span class="mi">20</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x5</span><span class="p">]</span>
+</code></pre></div>
+<p>Note also that in Torch7 <strong><em>elements in the same row</em></strong> [elements along the <strong>last</strong> dimension]
+are contiguous in memory for a matrix [tensor]:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">&gt;</span>
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">()</span>
+<span class="o">&gt;&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;</span> <span class="k">return</span> <span class="n">i</span>
+<span class="o">&gt;&gt;</span> <span class="k">end</span><span class="p">)</span>
+<span class="o">&gt;</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="mi">1</span>   <span class="mi">2</span>   <span class="mi">3</span>   <span class="mi">4</span>   <span class="mi">5</span>
+  <span class="mi">6</span>   <span class="mi">7</span>   <span class="mi">8</span>   <span class="mi">9</span>  <span class="mi">10</span>
+ <span class="mi">11</span>  <span class="mi">12</span>  <span class="mi">13</span>  <span class="mi">14</span>  <span class="mi">15</span>
+ <span class="mi">16</span>  <span class="mi">17</span>  <span class="mi">18</span>  <span class="mi">19</span>  <span class="mi">20</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="k">return</span>  <span class="n">x</span><span class="p">:</span><span class="n">stride</span><span class="p">()</span>
+ <span class="mi">5</span>
+ <span class="mi">1</span>  <span class="c1">-- element in the last dimension are contiguous!</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">2</span><span class="p">]</span>
+</code></pre></div>
+<p>This is exactly like in C (and not <code>Fortran</code>).</p>
+
+<p><strong>Tensors of different types</strong></p>
+
+<p>Actually, several types of <code>Tensor</code> exists:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">ByteTensor</span> <span class="c1">-- contains unsigned chars</span>
+<span class="n">CharTensor</span> <span class="c1">-- contains signed chars</span>
+<span class="n">ShortTensor</span> <span class="c1">-- contains shorts</span>
+<span class="n">IntTensor</span> <span class="c1">-- contains ints</span>
+<span class="n">FloatTensor</span> <span class="c1">-- contains floats</span>
+<span class="n">DoubleTensor</span> <span class="c1">-- contains doubles</span>
+</code></pre></div>
+<p>Most numeric operations are implemented <em>only</em> for <code>FloatTensor</code> and <code>DoubleTensor</code>. 
+Other Tensor types are useful if you want to save memory space.</p>
+
+<p><strong>Default Tensor type</strong></p>
+
+<p>For convenience, <em>an alias</em> <code>torch.Tensor</code> is provided, which allows the user to write
+type-independent scripts, which can then ran after choosing the desired Tensor type with
+a call like</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">torch</span><span class="p">.</span><span class="n">setdefaulttensortype</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">torch.FloatTensor&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>See <a href="utility.md#torch.setdefaulttensortype">torch.setdefaulttensortype</a> for more details.
+By default, the alias &quot;points&quot; on <code>torch.DoubleTensor</code>.</p>
+
+<p><strong>Efficient memory management</strong></p>
+
+<p><em>All</em> tensor operations in this class do <em>not</em> make any memory copy. All
+these methods transform the existing tensor, or return a new tensor
+referencing <em>the same storage</em>. This magical behavior is internally
+obtained by good usage of the <a href="#torch.Tensor.stride">stride()</a> and
+<a href="#torch.Tensor.storageOffset">storageOffset()</a>. Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">narrow</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">-- narrow() returns a Tensor</span>
+                            <span class="c1">-- referencing the same Storage as x</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+ <span class="mi">0</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="p">]</span>
+</code></pre></div>
+<p>If you really need to copy a <code>Tensor</code>, you can use the <a href="#torch.Tensor.copy">copy()</a> method:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="n">size</span><span class="p">()):</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div>
+<p>Or the convenience method</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">clone</span><span class="p">()</span>
+</code></pre></div>
+<p>We now describe all the methods for <code>Tensor</code>. If you want to specify the Tensor type,
+just replace <code>Tensor</code> by the name of the Tensor variant (like <code>CharTensor</code>).</p>
+
+<p><a name="torch.Tensor"/></p>
+
+<h2 id="toc_1">Tensor constructors</h2>
+
+<p>Tensor constructors, create new Tensor object, optionally, allocating
+new memory. By default the elements of a newly allocated memory are
+not initialized, therefore, might contain arbitrary numbers. Here are
+several ways to construct a new <code>Tensor</code>.</p>
+
+<p><a name="torch.Tensor"/></p>
+
+<h3 id="toc_2">torch.Tensor()</h3>
+
+<p>Returns an empty tensor.</p>
+
+<p><a name="torch.Tensor"/></p>
+
+<h3 id="toc_3">torch.Tensor(tensor)</h3>
+
+<p>Returns a new tensor which reference the same
+<a href="#torch.Tensor.storage">Storage</a> than the given <code>tensor</code>. The
+<a href="#torch.Tensor.size">size</a>, <a href="#torch.Tensor.stride">stride</a>, and
+<a href="#torch.Tensor.storageOffset">storage offset</a> are the same than the
+given tensor.</p>
+
+<p>The new <code>Tensor</code> is now going to &quot;view&quot; the same <a href="storage.md">storage</a>
+as the given <code>tensor</code>. As a result, any modification in the elements
+of the <code>Tensor</code> will have a impact on the elements of the given
+<code>tensor</code>, and vice-versa. No memory copy!</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">-- elements of x are the same as y!</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor"/></p>
+
+<h3 id="toc_4">torch.Tensor(sz1 [,sz2 [,sz3 [,sz4]]]])</h3>
+
+<p>Create a tensor up to 4 dimensions. The tensor size will be <code>sz1 x sz2 x sx3 x sz4</code>.</p>
+
+<p><a name="torch.Tensor"/></p>
+
+<h3 id="toc_5">torch.Tensor(sizes, [strides])</h3>
+
+<p>Create a tensor of any number of dimensions. The
+<a href="storage.md">LongStorage</a> <code>sizes</code> gives the size in each dimension of
+the tensor. The optional <a href="storage.md">LongStorage</a> <code>strides</code> gives the
+jump necessary to go from one element to the next one in the each
+dimension. Of course, <code>sizes</code> and <code>strides</code> must have the same
+number of elements. If not given, or if some elements of <code>strides</code>
+are <em>negative</em>, the <a href="#torch.Tensor.stride">stride()</a> will be
+computed such that the tensor is as contiguous as possible in memory.</p>
+
+<p>Example, create a 4D 4x4x3x2 tensor:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span><span class="p">({</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">}))</span>
+</code></pre></div>
+<p>Playing with the strides can give some interesting things:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span><span class="p">({</span><span class="mi">4</span><span class="p">}),</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span><span class="p">({</span><span class="mi">0</span><span class="p">})):</span><span class="n">zero</span><span class="p">()</span> <span class="c1">-- zeroes the tensor</span>
+<span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">-- all elements point to the same address!</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="p">]</span>
+</code></pre></div>
+<p>Note that <em>negative strides are not allowed</em>, and, if given as
+argument when constructing the Tensor, will be interpreted as //choose
+the right stride such that the Tensor is contiguous in memory//.</p>
+
+<p><a name="torch.Tensor"/></p>
+
+<h3 id="toc_6">torch.Tensor(storage, [storageOffset, sizes, [strides]])</h3>
+
+<p>Returns a tensor which uses the existing <a href="storage.md">Storage</a>
+<code>storage</code>, starting at position <code>storageOffset</code> (&gt;=1).  The size
+of each dimension of the tensor is given by the
+<a href="storage.md">LongStorage</a> <code>sizes</code>.</p>
+
+<p>If only <code>storage</code> is provided, it will create a 1D Tensor viewing
+the all Storage.</p>
+
+<p>The jump necessary to go from one element to the next one in each
+dimension is given by the optional argument <a href="storage.md">LongStorage</a>
+<code>strides</code>. If not given, or if some elements of <code>strides</code> are
+negative, the <a href="#torch.Tensor.stride">stride()</a> will be computed such
+that the tensor is as contiguous as possible in memory.</p>
+
+<p>Any modification in the elements of the <code>Storage</code> will have an
+impact on the elements of the new <code>Tensor</code>, and vice-versa. There is
+no memory copy!</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="c1">-- creates a storage with 10 elements</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Storage</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1">-- we want to see it as a 2x5 tensor</span>
+<span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">})</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="c1">-- the storage contents have been modified</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleStorage</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">10</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor"/></p>
+
+<h3 id="toc_7">torch.Tensor(storage, [storageOffset, sz1 [, st1 ... [, sz4 [, st4]]]])</h3>
+
+<p>Convenience constructor (for the previous constructor) assuming a
+number of dimensions inferior or equal to 4. <code>szi</code> is the size in
+the <code>i-th</code> dimension, and <code>sti</code> it the stride in the <code>i-th</code>
+dimension.</p>
+
+<p><a name="torch.Tensor"/></p>
+
+<h3 id="toc_8">torch.Tensor(table)</h3>
+
+<p>The argument is assumed to be a Lua array of numbers. The constructor
+returns a new Tensor of the size of the table, containing all the table
+elements. The table might be multi-dimensional.</p>
+
+<p>Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">({</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">},</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">}</span> <span class="p">})</span>
+ <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">4</span>
+ <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span>  <span class="mi">8</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x4</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="toc_9">Cloning</h2>
+
+<p><a name="torch.Tensor.clone"/></p>
+
+<h3 id="toc_10">[Tensor] clone()</h3>
+
+<p>Returns a clone of a tensor. The memory is copied.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">return</span> <span class="n">i</span>
+<span class="k">end</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">x</span>
+
+ <span class="mi">1</span>
+ <span class="mi">2</span>
+ <span class="mi">3</span>
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1">-- create a clone of x</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">clone</span><span class="p">()</span>
+
+<span class="o">=</span> <span class="n">y</span>
+
+ <span class="mi">1</span>
+ <span class="mi">2</span>
+ <span class="mi">3</span>
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1">-- fill up y with 1</span>
+<span class="n">y</span><span class="p">:</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">y</span>
+
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1">-- the contents of x were not changed:</span>
+<span class="o">=</span> <span class="n">x</span>
+
+ <span class="mi">1</span>
+ <span class="mi">2</span>
+ <span class="mi">3</span>
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.contiguous"/></p>
+
+<h3 id="toc_11">[Tensor] contiguous</h3>
+
+<ul>
+<li>If the given Tensor contents are contiguous in memory, returns the exact same Tensor (no memory copy).</li>
+<li>Otherwise (_not contiguous in memory_), returns a <a href="#torch.Tensor.clone">clone</a> (memory <em>copy</em>).</li>
+</ul>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">x</span>
+
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="c1">-- x is contiguous, so y points to the same thing</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">contiguous</span><span class="p">():</span><span class="n">fill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">y</span>
+
+ <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>
+ <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="c1">-- contents of x have been changed</span>
+<span class="o">=</span> <span class="n">x</span>
+
+ <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>
+ <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="c1">-- x:t() is not contiguous, so z is a clone</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">t</span><span class="p">():</span><span class="n">contiguous</span><span class="p">():</span><span class="n">fill</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">z</span>
+
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x2</span><span class="p">]</span>
+
+<span class="c1">-- contents of x have not been changed</span>
+<span class="o">=</span> <span class="n">x</span>
+
+ <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>
+ <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x3</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.type"/></p>
+
+<h3 id="toc_12">[Tensor or string] type(type)</h3>
+
+<p><strong>If <code>type</code> is <code>nil</code></strong>, returns atring containing the type name of
+  the given tensor.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">():</span><span class="nb">type</span><span class="p">()</span>
+<span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span>
+</code></pre></div>
+<p><strong>If <code>type</code> is a string</strong> describing a Tensor type, and is equal to
+the given tensor typename, returns the exact same tensor (//no memory
+copy//).</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">x</span>
+
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="nb">type</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">torch.DoubleTensor&#39;</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">y</span>
+
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="c1">-- zero y contents</span>
+<span class="n">y</span><span class="p">:</span><span class="n">zero</span><span class="p">()</span>
+
+<span class="c1">-- contents of x have been changed</span>
+<span class="o">=</span> <span class="n">x</span>
+
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+</code></pre></div>
+<p><strong>If <code>type</code> is a string</strong> describing a Tensor type, different from
+the type name of the given Tensor, returns a new Tensor of the
+specified type, whose contents corresponds to the contents of the
+original Tensor, casted to the given type (//memory copy occurs, with
+possible loss of precision//).</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">x</span>
+
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="nb">type</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">torch.IntTensor&#39;</span><span class="p">)</span>
+<span class="o">=</span> <span class="n">y</span>
+
+ <span class="mi">3</span>
+ <span class="mi">3</span>
+ <span class="mi">3</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">IntTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.typeAs"/></p>
+
+<h3 id="toc_13">[Tensor] typeAs(tensor)</h3>
+
+<p>Convenience method for the <a href="#torch.Tensor.type">type</a> method. Equivalent to</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="nb">type</span><span class="p">(</span><span class="n">tensor</span><span class="p">:</span><span class="nb">type</span><span class="p">())</span>
+</code></pre></div>
+<p><a name="torch.Tensor.byte"/></p>
+
+<h3 id="toc_14">[Tensor] byte(), char(), short(), int(), long(), float(), double()</h3>
+
+<p><a name="torch.Tensor.short"/>
+<a name="torch.Tensor.char"/>
+<a name="torch.Tensor.long"/>
+<a name="torch.Tensor.int"/>
+<a name="torch.Tensor.double"/>
+<a name="torch.Tensor.float"/></p>
+
+<p>Convenience methods for the <a href="#torch.Tensor.type">type</a> method. For e.g.,</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>
+
+<span class="o">=</span> <span class="n">x</span>
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="c1">-- calling type(&#39;torch.IntTensor&#39;)</span>
+<span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="nb">type</span><span class="p">(</span><span class="s1">&#39;</span><span class="s">torch.IntTensor&#39;</span><span class="p">)</span>
+
+ <span class="mi">3</span>
+ <span class="mi">3</span>
+ <span class="mi">3</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">IntTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+
+
+<span class="c1">-- is equivalent to calling int()</span>
+<span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">int</span><span class="p">()</span>
+
+ <span class="mi">3</span>
+ <span class="mi">3</span>
+ <span class="mi">3</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">IntTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="toc_15">Querying the size and structure</h2>
+
+<p><a name="torch.Tensor.nDimension"/></p>
+
+<h3 id="toc_16">[number] nDimension()</h3>
+
+<p>Returns the number of dimensions in a <code>Tensor</code>.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="c1">-- a matrix</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">nDimension</span><span class="p">()</span>
+<span class="mi">2</span>
+</code></pre></div>
+<p><a name="torch.Tensor.dim"/></p>
+
+<h3 id="toc_17">[number] dim()</h3>
+
+<p>Same as <a href="#torch.Tensor.nDimension">nDimension()</a>.</p>
+
+<p><a name="torch.Tensor.size"/></p>
+
+<h3 id="toc_18">[number] size(dim)</h3>
+
+<p>Returns the size of the specified dimension <code>dim</code>. Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="k">return</span>  <span class="n">x</span><span class="p">:</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1">-- gets the number of columns</span>
+<span class="mi">5</span>
+</code></pre></div>
+<p><a name="torch.Tensor.size"/></p>
+
+<h3 id="toc_19">[LongStorage] size()</h3>
+
+<p>Returns a <a href="storage.md">LongStorage</a> containing the size of each dimension
+of the tensor.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="k">return</span>  <span class="n">x</span><span class="p">:</span><span class="n">size</span><span class="p">()</span>
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">2</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.size"/></p>
+
+<h3 id="toc_20">[LongStorage] #self</h3>
+
+<p>Same as <a href="#torch.Tensor.size">size()</a> method.</p>
+
+<p><a name="torch.Tensor.stride"/></p>
+
+<h3 id="toc_21">[number] stride(dim)</h3>
+
+<p>Returns the jump necessary to go from one element to the next one in the
+specified dimension <code>dim</code>. Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x5</span><span class="p">]</span>
+
+  <span class="c1">--- elements in a row are contiguous in memory</span>
+<span class="o">&gt;</span> <span class="k">return</span>  <span class="n">x</span><span class="p">:</span><span class="n">stride</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="mi">1</span>
+
+  <span class="c1">--- to go from one element to the next one in a column</span>
+  <span class="c1">--- we need here to jump the size of the row</span>
+<span class="o">&gt;</span> <span class="k">return</span>  <span class="n">x</span><span class="p">:</span><span class="n">stride</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="mi">5</span>
+</code></pre></div>
+<p>Note also that in <code>Torch</code> <em>elements in the same row</em> [elements along the <strong>last</strong> dimension]
+are contiguous in memory for a matrix [tensor].</p>
+
+<p><a name="torch.Tensor.stride"/></p>
+
+<h3 id="toc_22">[LongStorage] stride()</h3>
+
+<p>Returns the jump necessary to go from one element to the next one in each dimension. Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="k">return</span>  <span class="n">x</span><span class="p">:</span><span class="n">stride</span><span class="p">()</span>
+ <span class="mi">5</span>
+ <span class="mi">1</span> <span class="c1">-- elements are contiguous in a row [last dimension]</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">2</span><span class="p">]</span>
+</code></pre></div>
+<p>Note also that in <code>Torch</code> <em>elements in the same row</em> [elements along the <strong>last</strong> dimension]
+are contiguous in memory for a matrix [tensor].</p>
+
+<p><a name="torch.Tensor.storage"/></p>
+
+<h3 id="toc_23">[Storage] storage()</h3>
+
+<p>Returns the <a href="storage.md">Storage</a> used to store all the elements of the <code>Tensor</code>.
+Basically, a <code>Tensor</code> is a particular way of <em>viewing</em> a <code>Storage</code>.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">storage</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">s</span><span class="p">:</span><span class="n">size</span><span class="p">()</span> <span class="k">do</span> <span class="c1">-- fill up the Storage</span>
+<span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+<span class="o">&gt;&gt;</span> <span class="k">end</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">-- s is interpreted by x as a 2D matrix</span>
+
+  <span class="mi">1</span>   <span class="mi">2</span>   <span class="mi">3</span>   <span class="mi">4</span>   <span class="mi">5</span>
+  <span class="mi">6</span>   <span class="mi">7</span>   <span class="mi">8</span>   <span class="mi">9</span>  <span class="mi">10</span>
+ <span class="mi">11</span>  <span class="mi">12</span>  <span class="mi">13</span>  <span class="mi">14</span>  <span class="mi">15</span>
+ <span class="mi">16</span>  <span class="mi">17</span>  <span class="mi">18</span>  <span class="mi">19</span>  <span class="mi">20</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x5</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.isContiguous"/></p>
+
+<h3 id="toc_24">[boolean] isContiguous()</h3>
+
+<p>Returns <code>true</code> iff the elements of the <code>Tensor</code> are contiguous in memory.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua">  <span class="c1">-- normal tensors are contiguous in memory</span>
+<span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">isContiguous</span><span class="p">()</span>
+<span class="kc">true</span>
+  <span class="c1">-- y now &quot;views&quot; the 3rd column of x</span>
+  <span class="c1">-- the storage of y is the same than x</span>
+  <span class="c1">-- so the memory cannot be contiguous</span>
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">y</span><span class="p">:</span><span class="n">isContiguous</span><span class="p">()</span>
+<span class="kc">false</span>
+  <span class="c1">-- indeed, to jump to one element to</span>
+  <span class="c1">-- the next one, the stride is 4</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">y</span><span class="p">:</span><span class="n">stride</span><span class="p">()</span>
+ <span class="mi">5</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">1</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.nElement"/></p>
+
+<h3 id="toc_25">[number] nElement()</h3>
+
+<p>Returns the number of elements of a tensor.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">nElement</span><span class="p">()</span> <span class="c1">-- 4x5 = 20!</span>
+<span class="mi">20</span>
+</code></pre></div>
+<p><a name="torch.Tensor.storageOffset"/></p>
+
+<h3 id="toc_26">[number] storageOffset()</h3>
+
+<p>Return the first index (starting at 1) used in the tensor&#39;s <a href="#torch.Tensor.storage">storage</a>.</p>
+
+<p><a name="torch.Tensor.__index__"/></p>
+
+<h2 id="toc_27">Querying elements</h2>
+
+<p>Elements of a tensor can be retrieved with the <code>[index]</code> operator.</p>
+
+<p>If <code>index</code> is a number, <code>[index]</code> operator is equivalent to a
+<a href="#torch.Tensor.select"><code>select(1, index)</code></a> if the tensor has more
+than one dimension. If the tensor is a 1D tensor, it returns the value
+at <code>index</code> in this tensor.</p>
+
+<p>If <code>index</code> is a table, the table must contain <em>n</em> numbers, where
+<em>n</em> is the <a href="#torch.Tensor.nDimension">number of dimensions</a> of the
+Tensor. It will return the element at the given position.</p>
+
+<p>In the same spirit, <code>index</code> might be a <a href="storage.md">LongStorage</a>,
+specifying the position (in the Tensor) of the element to be
+retrieved.</p>
+
+<p>Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="k">return</span> <span class="n">i</span> <span class="k">end</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span>
+
+ <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>
+ <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>
+ <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="c1">-- returns row 2</span>
+
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+ <span class="mi">6</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span> <span class="c1">-- returns row 2, column 3</span>
+<span class="mi">6</span>
+
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span><span class="p">[{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">}]</span> <span class="c1">-- another way to return row 2, column 3</span>
+<span class="mi">6</span>
+
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">}]</span> <span class="c1">-- yet another way to return row 2, column 3</span>
+<span class="mi">6</span>
+</code></pre></div>
+<p><a name="torch.Tensor.set"/></p>
+
+<h2 id="toc_28">Referencing a tensor to an existing tensor or chunk of memory</h2>
+
+<p>A <code>Tensor</code> being a way of <em>viewing</em> a <a href="storage.md">Storage</a>, it is
+possible to &quot;set&quot; a <code>Tensor</code> such that it views an existing <a href="storage.md">Storage</a>.</p>
+
+<p>Note that if you want to perform a set on an empty <code>Tensor</code> like</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Storage</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">()</span>
+<span class="n">x</span><span class="p">:</span><span class="n">set</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+<p>you might want in that case to use one of the <a href="#torch.Tensor">equivalent constructor</a>.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Storage</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+<p><a name="torch.Tensor.set"/></p>
+
+<h3 id="toc_29">[self] set(tensor)</h3>
+
+<p>The <code>Tensor</code> is now going to &quot;view&quot; the same <a href="#torch.Tensor.storage">storage</a>
+as the given <code>tensor</code>. As the result, any modification in the elements of
+the <code>Tensor</code> will have an impact on the elements of the given <code>tensor</code>, and
+vice-versa. This is an efficient method, as there is no memory copy!</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">():</span><span class="n">set</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>  <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">-- elements of x are the same than y!</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.set"/></p>
+
+<h3 id="toc_30">[self] set(storage, [storageOffset, sizes, [strides]])</h3>
+
+<p>The <code>Tensor</code> is now going to &quot;view&quot; the given
+<a href="storage.md"><code>storage</code></a>, starting at position <code>storageOffset</code> (&gt;=1)
+with the given <a href="#torch.Tensor.size">dimension <code>sizes</code></a> and the optional given
+<a href="#torch.Tensor.stride"><code>strides</code></a>. As the result, any modification in the
+elements of the <code>Storage</code> will have a impact on the elements of the
+<code>Tensor</code>, and vice-versa. This is an efficient method, as there is no
+memory copy!</p>
+
+<p>If only <code>storage</code> is provided, the whole storage will be viewed as a 1D Tensor.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua">  <span class="c1">-- creates a storage with 10 elements</span>
+<span class="o">&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Storage</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+  <span class="c1">-- we want to see it as a 2x5 tensor</span>
+<span class="o">&gt;</span> <span class="n">sz</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">LongStorage</span><span class="p">({</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">})</span>
+<span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">set</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sz</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="c1">-- the storage contents have been modified</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleStorage</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">10</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.set"/></p>
+
+<h3 id="toc_31">[self] set(storage, [storageOffset, sz1 [, st1 ... [, sz4 [, st4]]]])</h3>
+
+<p>This is a &quot;shorcut&quot; for previous method.
+It works up to 4 dimensions. <code>szi</code> is the size of the <code>i</code>-th dimension of the tensor.
+<code>sti</code> is the stride in the <code>i</code>-th dimension.</p>
+
+<h2 id="toc_32">Copying and initializing</h2>
+
+<p><a name="torch.Tensor.copy"/></p>
+
+<h3 id="toc_33">[self] copy(tensor)</h3>
+
+<p>Copy the elements of the given <code>tensor</code>. The
+<a href="#torch.Tensor.nElement">number of elements</a> must match, but the
+sizes might be different.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">):</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x2</span><span class="p">]</span>
+</code></pre></div>
+<p>If a different type of <code>tensor</code> is given, then a type conversion occurs,
+which, of course, might result in loss of precision.</p>
+
+<p><a name="torch.Tensor.fill"/></p>
+
+<h3 id="toc_34">[self] fill(value)</h3>
+
+<p>Fill the tensor with the given <code>value</code>.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mf">3.14</span><span class="p">)</span>
+
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+ <span class="mf">3.1400</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.zero"/></p>
+
+<h3 id="toc_35">[self] zero()</h3>
+
+<p>Fill the tensor with zeros.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.resize.dok"/></p>
+
+<h2 id="toc_36">Resizing</h2>
+
+<p><strong>When resizing to a larger size</strong>, the underlying <a href="storage.md">Storage</a> is resized to fit
+all the elements of the <code>Tensor</code>. </p>
+
+<p><strong>When resizing to a smaller size</strong>, the underlying <a href="#Storage">Storage</a> is not resized.</p>
+
+<p><strong>Important note:</strong> the content of a <code>Tensor</code> after resizing is <em>undertermined</em> as <a href="#torch.Tensor.stride">strides</a>
+might have been completely changed. In particular, <em>the elements of the resized tensor are contiguous in memory</em>.</p>
+
+<p><a name="torch.Tensor.resizeAs"/></p>
+
+<h3 id="toc_37">[self] resizeAs(tensor)</h3>
+
+<p>Resize the <code>tensor</code> as the given <code>tensor</code> (of the same type). </p>
+
+<p><a name="torch.Tensor.resize"/></p>
+
+<h3 id="toc_38">[self] resize(sizes)</h3>
+
+<p>Resize the <code>tensor</code> according to the given <a href="storage.md">LongStorage</a> <code>size</code>.</p>
+
+<p><a name="torch.Tensor.resize"/></p>
+
+<h3 id="toc_39">[self] resize(sz1 [,sz2 [,sz3 [,sz4]]]])</h3>
+
+<p>Convenience method of the previous method, working for a number of dimensions up to 4.</p>
+
+<h2 id="toc_40">Extracting sub-tensors</h2>
+
+<p>Each of these methods returns a <code>Tensor</code> which is a sub-tensor of the given
+tensor, <em>with the same <code>Storage</code></em>. Hence, any modification in the memory of
+the sub-tensor will have an impact on the primary tensor, and vice-versa.</p>
+
+<p>These methods are very fast, as they do not involve any memory copy.</p>
+
+<p><a name="torch.Tensor.narrow"/></p>
+
+<h3 id="toc_41">[Tensor] narrow(dim, index, size)</h3>
+
+<p>Returns a new <code>Tensor</code> which is a narrowed version of the current one: the dimension <code>dim</code> is narrowed
+from <code>index</code> to <code>index+size-1</code>.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">narrow</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1">-- narrow dimension 1 from index 2 to index 2+3-1</span>
+<span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">-- fill with 1</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">-- memory in x has been modified!</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.sub"/></p>
+
+<h3 id="toc_42">[Tensor] sub(dim1s, dim1e ... [, dim4s [, dim4e]])</h3>
+
+<p>This method is equivalent to do a series of
+<a href="#torch.Tensor.narrow">narrow</a> up to the first 4 dimensions.  It
+returns a new <code>Tensor</code> which is a sub-tensor going from index
+<code>dimis</code> to <code>dimie</code> in the <code>i</code>-th dimension. Negative values are
+interpreted index starting from the end: <code>-1</code> is the last index,
+<code>-2</code> is the index before the last index, ...</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">sub</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">-- y is sub-tensor of x: </span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>               <span class="c1">-- dimension 1 starts at index 2, ends at index 4</span>
+
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>               <span class="c1">-- x has been modified!</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">sub</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1">-- we now take a new sub-tensor</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>                   <span class="c1">-- dimension 1 starts at index 2, ends at index 4</span>
+                             <span class="c1">-- dimension 2 starts at index 3, ends at index 4</span>
+ <span class="mi">2</span>  <span class="mi">2</span>
+ <span class="mi">2</span>  <span class="mi">2</span>
+ <span class="mi">2</span>  <span class="mi">2</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x2</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                  <span class="c1">-- x has been modified</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">:</span><span class="n">sub</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span> <span class="c1">-- negative values = bounds</span>
+
+ <span class="mi">2</span>  <span class="mi">2</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">1</span><span class="n">x2</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.select"/></p>
+
+<h3 id="toc_43">[Tensor] select(dim, index)</h3>
+
+<p>Returns a new <code>Tensor</code> which is a tensor slice at the given <code>index</code> in the
+dimension <code>dim</code>. The returned tensor has one less dimension: the dimension
+<code>dim</code> is removed.  As a result, it is not possible to <code>select()</code> on a 1D
+tensor.</p>
+
+<p>Note that &quot;selecting&quot; on the first dimension is equivalent to use the <a href="#torch.Tensor.__index__">[] operator</a></p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1">-- select row 2 and fill up</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mi">2</span>
+ <span class="mi">2</span>
+ <span class="mi">2</span>
+ <span class="mi">2</span>
+ <span class="mi">2</span>
+ <span class="mi">2</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="c1">-- select column 5 and fill up</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+ <span class="mi">5</span>
+ <span class="mi">5</span>
+ <span class="mi">5</span>
+ <span class="mi">5</span>
+ <span class="mi">5</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">5</span>  <span class="mi">0</span>
+ <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">5</span>  <span class="mi">2</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">5</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">5</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">5</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.index"/></p>
+
+<h3 id="toc_44">[Tensor] [{ dim1,dim2,... }] or [{ {dim1s,dim1e}, {dim2s,dim2e} }]</h3>
+
+<p>The indexing operator [] can be used to combine narrow/sub and
+select in a concise an efficient way. It can also be used
+to copy, and fill (sub) tensors.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">[{</span> <span class="mi">1</span><span class="p">,</span><span class="mi">3</span> <span class="p">}]</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1">-- sets element at (i=1,j=3) to 1</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">[{</span> <span class="mi">2</span><span class="p">,{</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">}</span> <span class="p">}]</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1">-- sets a slice of 3 elements to 2</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">2</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">[{</span> <span class="p">{},</span><span class="mi">4</span> <span class="p">}]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c1">-- sets the full 4th column to -1</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">1</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">2</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">[{</span> <span class="p">{},</span><span class="mi">2</span> <span class="p">}]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="c1">-- copy a 1D tensor to a slice of x</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">1</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">2</span>  <span class="mi">2</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">3</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">4</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">5</span>  <span class="mi">0</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x6</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.index"/></p>
+
+<h3 id="toc_45">[Tensor] index(dim, index)</h3>
+
+<p>Returns a new <code>Tensor</code> which indexes the given tensor along dimension <code>dim</code> and using the entries in <code>torch.LongTensor</code> <code>index</code>. The returned tensor has the same number of dimensions as the original tensor. The returned tensor does <strong>not</strong> use the same storage as the original tensor.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">t7</span><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+ <span class="mf">0.8020</span>  <span class="mf">0.7246</span>  <span class="mf">0.1204</span>  <span class="mf">0.3419</span>  <span class="mf">0.4385</span>
+ <span class="mf">0.0369</span>  <span class="mf">0.4158</span>  <span class="mf">0.0985</span>  <span class="mf">0.3024</span>  <span class="mf">0.8186</span>
+ <span class="mf">0.2746</span>  <span class="mf">0.9362</span>  <span class="mf">0.2546</span>  <span class="mf">0.8586</span>  <span class="mf">0.6674</span>
+ <span class="mf">0.7473</span>  <span class="mf">0.9028</span>  <span class="mf">0.1046</span>  <span class="mf">0.9085</span>  <span class="mf">0.6622</span>
+ <span class="mf">0.1412</span>  <span class="mf">0.6784</span>  <span class="mf">0.1624</span>  <span class="mf">0.8113</span>  <span class="mf">0.3949</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">{</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">})</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">y</span>
+ <span class="mf">0.2746</span>  <span class="mf">0.9362</span>  <span class="mf">0.2546</span>  <span class="mf">0.8586</span>  <span class="mf">0.6674</span>
+ <span class="mf">0.8020</span>  <span class="mf">0.7246</span>  <span class="mf">0.1204</span>  <span class="mf">0.3419</span>  <span class="mf">0.4385</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">y</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>  <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">2</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+ <span class="mf">0.8020</span>  <span class="mf">0.7246</span>  <span class="mf">0.1204</span>  <span class="mf">0.3419</span>  <span class="mf">0.4385</span>
+ <span class="mf">0.0369</span>  <span class="mf">0.4158</span>  <span class="mf">0.0985</span>  <span class="mf">0.3024</span>  <span class="mf">0.8186</span>
+ <span class="mf">0.2746</span>  <span class="mf">0.9362</span>  <span class="mf">0.2546</span>  <span class="mf">0.8586</span>  <span class="mf">0.6674</span>
+ <span class="mf">0.7473</span>  <span class="mf">0.9028</span>  <span class="mf">0.1046</span>  <span class="mf">0.9085</span>  <span class="mf">0.6622</span>
+ <span class="mf">0.1412</span>  <span class="mf">0.6784</span>  <span class="mf">0.1624</span>  <span class="mf">0.8113</span>  <span class="mf">0.3949</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x5</span><span class="p">]</span>
+</code></pre></div>
+<p>Note the explicit <code>index</code> function is different than the indexing operator <code>[]</code>. The indexing operator <code>[]</code> is a syntactic shortcut for a series of select and narrow operations, therefore it always returns a new view on the original tensor that shares the same storage. However, he explicit <code>index</code> function can not use the same storage.</p>
+
+<p><a name="torch.Tensor.indexCopy"/></p>
+
+<h3 id="toc_46">[Tensor] indexCopy(dim, index, tensor)</h3>
+
+<p>Copies the elements of <code>tensor</code> into itself by selecting the indices in the order defined by the order given in <code>index</code>.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+ <span class="mf">0.8020</span>  <span class="mf">0.7246</span>  <span class="mf">0.1204</span>  <span class="mf">0.3419</span>  <span class="mf">0.4385</span>
+ <span class="mf">0.0369</span>  <span class="mf">0.4158</span>  <span class="mf">0.0985</span>  <span class="mf">0.3024</span>  <span class="mf">0.8186</span>
+ <span class="mf">0.2746</span>  <span class="mf">0.9362</span>  <span class="mf">0.2546</span>  <span class="mf">0.8586</span>  <span class="mf">0.6674</span>
+ <span class="mf">0.7473</span>  <span class="mf">0.9028</span>  <span class="mf">0.1046</span>  <span class="mf">0.9085</span>  <span class="mf">0.6622</span>
+ <span class="mf">0.1412</span>  <span class="mf">0.6784</span>  <span class="mf">0.1624</span>  <span class="mf">0.8113</span>  <span class="mf">0.3949</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x5</span><span class="p">]</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">z</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">z</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">z</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">z</span>
+<span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="mi">2</span>
+<span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="mi">2</span>
+<span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="mi">2</span>
+<span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="mi">2</span>
+<span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="mi">2</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x2</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">indexCopy</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span><span class="n">z</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+<span class="o">-</span><span class="mf">2.0000</span>  <span class="mf">0.7246</span>  <span class="mf">0.1204</span>  <span class="mf">0.3419</span> <span class="o">-</span><span class="mf">1.0000</span>
+<span class="o">-</span><span class="mf">2.0000</span>  <span class="mf">0.4158</span>  <span class="mf">0.0985</span>  <span class="mf">0.3024</span> <span class="o">-</span><span class="mf">1.0000</span>
+<span class="o">-</span><span class="mf">2.0000</span>  <span class="mf">0.9362</span>  <span class="mf">0.2546</span>  <span class="mf">0.8586</span> <span class="o">-</span><span class="mf">1.0000</span>
+<span class="o">-</span><span class="mf">2.0000</span>  <span class="mf">0.9028</span>  <span class="mf">0.1046</span>  <span class="mf">0.9085</span> <span class="o">-</span><span class="mf">1.0000</span>
+<span class="o">-</span><span class="mf">2.0000</span>  <span class="mf">0.6784</span>  <span class="mf">0.1624</span>  <span class="mf">0.8113</span> <span class="o">-</span><span class="mf">1.0000</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x5</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.indexFill"/></p>
+
+<h3 id="toc_47">[Tensor] indexFill(dim, index, val)</h3>
+
+<p>Fills the elements of itself with value <code>val</code> by selecting the indices in the order defined by the order given in <code>index</code>.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">t7</span><span class="o">&gt;</span> <span class="n">x</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+ <span class="mf">0.8414</span>  <span class="mf">0.4121</span>  <span class="mf">0.3934</span>  <span class="mf">0.5600</span>  <span class="mf">0.5403</span>
+ <span class="mf">0.3029</span>  <span class="mf">0.2040</span>  <span class="mf">0.7893</span>  <span class="mf">0.6079</span>  <span class="mf">0.6334</span>
+ <span class="mf">0.3743</span>  <span class="mf">0.1389</span>  <span class="mf">0.1573</span>  <span class="mf">0.1357</span>  <span class="mf">0.8460</span>
+ <span class="mf">0.2838</span>  <span class="mf">0.9925</span>  <span class="mf">0.0076</span>  <span class="mf">0.7220</span>  <span class="mf">0.5185</span>
+ <span class="mf">0.8739</span>  <span class="mf">0.6887</span>  <span class="mf">0.4271</span>  <span class="mf">0.0385</span>  <span class="mf">0.9116</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x5</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">indexFill</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">torch</span><span class="p">.</span><span class="n">LongTensor</span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+  <span class="mf">0.8414</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.3934</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.5403</span>
+  <span class="mf">0.3029</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.7893</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.6334</span>
+  <span class="mf">0.3743</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.1573</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.8460</span>
+  <span class="mf">0.2838</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.0076</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.5185</span>
+  <span class="mf">0.8739</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.4271</span> <span class="o">-</span><span class="mf">10.0000</span>   <span class="mf">0.9116</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="n">x5</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="toc_48">Expanding/Replicating Tensors</h2>
+
+<p>These methods returns a <code>Tensor</code> which is created by replications of the
+original tensor.</p>
+
+<p><a name="torch.Tensor.expand"/></p>
+
+<h4 id="toc_49">[Tensor] expand(sizes)</h4>
+
+<p><code>sizes</code> can either be a <code>torch.LongStorage</code> or numbers. Expanding a tensor
+does not allocate new memory, but only creates a new view on the existing tensor where
+singleton dimensions can be expanded to multiple ones by setting the <code>stride</code> to 0. 
+Any dimension that is 1 can be expanded to arbitrary value without any new memory allocation.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="n">t7</span><span class="o">&gt;</span> <span class="n">x</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+ <span class="mf">0.3837</span>
+ <span class="mf">0.5966</span>
+ <span class="mf">0.0763</span>
+ <span class="mf">0.1896</span>
+ <span class="mf">0.4958</span>
+ <span class="mf">0.6841</span>
+ <span class="mf">0.4038</span>
+ <span class="mf">0.4068</span>
+ <span class="mf">0.1502</span>
+ <span class="mf">0.2239</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">10</span><span class="n">x1</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">y</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">expand</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">y</span>
+ <span class="mf">0.3837</span>  <span class="mf">0.3837</span>
+ <span class="mf">0.5966</span>  <span class="mf">0.5966</span>
+ <span class="mf">0.0763</span>  <span class="mf">0.0763</span>
+ <span class="mf">0.1896</span>  <span class="mf">0.1896</span>
+ <span class="mf">0.4958</span>  <span class="mf">0.4958</span>
+ <span class="mf">0.6841</span>  <span class="mf">0.6841</span>
+ <span class="mf">0.4038</span>  <span class="mf">0.4038</span>
+ <span class="mf">0.4068</span>  <span class="mf">0.4068</span>
+ <span class="mf">0.1502</span>  <span class="mf">0.1502</span>
+ <span class="mf">0.2239</span>  <span class="mf">0.2239</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">10</span><span class="n">x2</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span><span class="n">fill</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">y</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+ <span class="mi">1</span>  <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">10</span><span class="n">x2</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">10</span><span class="n">x1</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">y</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="k">return</span> <span class="n">i</span> <span class="k">end</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">y</span>
+  <span class="mi">2</span>   <span class="mi">2</span>
+  <span class="mi">4</span>   <span class="mi">4</span>
+  <span class="mi">6</span>   <span class="mi">6</span>
+  <span class="mi">8</span>   <span class="mi">8</span>
+ <span class="mi">10</span>  <span class="mi">10</span>
+ <span class="mi">12</span>  <span class="mi">12</span>
+ <span class="mi">14</span>  <span class="mi">14</span>
+ <span class="mi">16</span>  <span class="mi">16</span>
+ <span class="mi">18</span>  <span class="mi">18</span>
+ <span class="mi">20</span>  <span class="mi">20</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">10</span><span class="n">x2</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+  <span class="mi">2</span>
+  <span class="mi">4</span>
+  <span class="mi">6</span>
+  <span class="mi">8</span>
+ <span class="mi">10</span>
+ <span class="mi">12</span>
+ <span class="mi">14</span>
+ <span class="mi">16</span>
+ <span class="mi">18</span>
+ <span class="mi">20</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">10</span><span class="n">x1</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.expandAs"/></p>
+
+<h4 id="toc_50">[Tensor] expandAs(tensor)</h4>
+
+<p>This is equivalent to self:expand(tensor:size())</p>
+
+<p><a name="torch.Tensor.repeatTensor"/></p>
+
+<h4 id="toc_51">[Tensor] repeatTensor(sizes)</h4>
+
+<p><code>sizes</code> can either be a <code>torch.LongStorage</code> or numbers. Repeating a tensor allocates
+ new memory. <code>sizes</code> specify the number of times the tensor is repeated in each dimension.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"> <span class="n">t7</span><span class="o">&gt;</span> <span class="n">x</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">x</span>
+ <span class="mf">0.7160</span>
+ <span class="mf">0.6514</span>
+ <span class="mf">0.0704</span>
+ <span class="mf">0.7856</span>
+ <span class="mf">0.7452</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">repeatTensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+ <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+ <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+ <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x10</span><span class="p">]</span>
+
+<span class="n">t7</span><span class="o">&gt;</span> <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">repeatTensor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">,.,.)</span> <span class="o">=</span> 
+  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+
+<span class="p">(</span><span class="mi">2</span><span class="p">,.,.)</span> <span class="o">=</span> 
+  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+
+<span class="p">(</span><span class="mi">3</span><span class="p">,.,.)</span> <span class="o">=</span> 
+  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+  <span class="mf">0.7160</span>  <span class="mf">0.6514</span>  <span class="mf">0.0704</span>  <span class="mf">0.7856</span>  <span class="mf">0.7452</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x2x5</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="toc_52">Manipulating the tensor view</h2>
+
+<p>Each of these methods returns a <code>Tensor</code> which is another way of viewing
+the <code>Storage</code> of the given tensor. Hence, any modification in the memory of
+the sub-tensor will have an impact on the primary tensor, and vice-versa.</p>
+
+<p>These methods are very fast, are they do not involve any memory copy.</p>
+
+<p><a name="torch.Tensor.transpose"/></p>
+
+<h3 id="toc_53">[Tensor] transpose(dim1, dim2)</h3>
+
+<p>Returns a tensor where dimensions <code>dim1</code> and <code>dim2</code> have been swapped. For 2D tensors,
+the convenience method of <a href="#torch.Tensor.t">t()</a> is available.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>                  
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="c1">-- fill column 3 with 7</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">7</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">7</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">7</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x4</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c1">-- swap dimension 1 and 2</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">7</span>  <span class="mi">7</span>  <span class="mi">7</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="c1">-- fill column 3 with 8</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">8</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">8</span>
+ <span class="mi">7</span>  <span class="mi">7</span>  <span class="mi">8</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">8</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1">-- contents of x have changed as well</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">7</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">7</span>  <span class="mi">0</span>
+ <span class="mi">8</span>  <span class="mi">8</span>  <span class="mi">8</span>  <span class="mi">8</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x4</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.t"/></p>
+
+<h3 id="toc_54">[Tensor] t()</h3>
+
+<p>Convenience method of <a href="#torch.Tensor.transpose">transpose()</a> for 2D
+tensors. The given tensor must be 2 dimensional. Swap dimensions 1 and 2.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span><span class="n">zero</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="nb">select</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">):</span><span class="n">fill</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">:</span><span class="n">t</span><span class="p">()</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+ <span class="mi">7</span>  <span class="mi">7</span>  <span class="mi">7</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">4</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">7</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">7</span>  <span class="mi">0</span>
+ <span class="mi">0</span>  <span class="mi">0</span>  <span class="mi">7</span>  <span class="mi">0</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x4</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.unfold"/></p>
+
+<h3 id="toc_55">[Tensor] unfold(dim, size, step)</h3>
+
+<p>Returns a tensor which contains all slices of size <code>size</code> in the dimension <code>dim</code>. Step between
+two slices is given by <code>step</code>.</p>
+
+<p>If <code>sizedim</code> is the original size of dimension <code>dim</code>, the size of dimension
+<code>dim</code> in the returned tensor will be <code>(sizedim - size) / step + 1</code></p>
+
+<p>An additional dimension of size <code>size</code> is appended in the returned tensor.</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span> <span class="k">do</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="k">end</span>
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mi">1</span>
+ <span class="mi">2</span>
+ <span class="mi">3</span>
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+ <span class="mi">6</span>
+ <span class="mi">7</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">7</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="k">return</span>  <span class="n">x</span><span class="p">:</span><span class="n">unfold</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+ <span class="mi">1</span>  <span class="mi">2</span>
+ <span class="mi">2</span>  <span class="mi">3</span>
+ <span class="mi">3</span>  <span class="mi">4</span>
+ <span class="mi">4</span>  <span class="mi">5</span>
+ <span class="mi">5</span>  <span class="mi">6</span>
+ <span class="mi">6</span>  <span class="mi">7</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">6</span><span class="n">x2</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="k">return</span>  <span class="n">x</span><span class="p">:</span><span class="n">unfold</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+ <span class="mi">1</span>  <span class="mi">2</span>
+ <span class="mi">3</span>  <span class="mi">4</span>
+ <span class="mi">5</span>  <span class="mi">6</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x2</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="toc_56">Applying a function to a tensor</h2>
+
+<p>These functions apply a function to each element of the tensor on which the
+method is called (self). These methods are much faster than using a <code>for</code>
+loop in <code>Lua</code>. The results is stored in <code>self</code> (if the function returns
+something).</p>
+
+<p><a name="torch.Tensor.apply"/></p>
+
+<h3 id="toc_57">[self] apply(function)</h3>
+
+<p>Apply the given function to all elements of self.</p>
+
+<p>The function takes a number (the current element of the tensor) and might return
+a number, in which case it will be stored in self.</p>
+
+<p>Examples:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">z</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;</span> <span class="k">return</span> <span class="n">i</span>
+<span class="o">&gt;&gt;</span> <span class="k">end</span><span class="p">)</span> <span class="c1">-- fill up the tensor</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">z</span>
+
+ <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>
+ <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>
+ <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">z</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="nb">math.sin</span><span class="p">)</span> <span class="c1">-- apply the sin function</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">z</span>
+
+ <span class="mf">0.8415</span>  <span class="mf">0.9093</span>  <span class="mf">0.1411</span>
+<span class="o">-</span><span class="mf">0.7568</span> <span class="o">-</span><span class="mf">0.9589</span> <span class="o">-</span><span class="mf">0.2794</span>
+ <span class="mf">0.6570</span>  <span class="mf">0.9894</span>  <span class="mf">0.4121</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">&gt;</span> <span class="n">z</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&gt;&gt;</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">+</span> <span class="n">x</span>
+<span class="o">&gt;&gt;</span> <span class="k">end</span><span class="p">)</span> <span class="c1">-- compute the sum of the elements</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">sum</span>
+<span class="mf">1.9552094821074</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">z</span><span class="p">:</span><span class="n">sum</span><span class="p">()</span> <span class="c1">-- it is indeed correct!</span>
+<span class="mf">1.9552094821074</span>
+</code></pre></div>
+<p><a name="torch.Tensor.map"/></p>
+
+<h3 id="toc_58">[self] map(tensor, function(xs, xt))</h3>
+
+<p>Apply the given function to all elements of self and <code>tensor</code>. The number of elements of both tensors
+must match, but sizes do not matter.</p>
+
+<p>The function takes two numbers (the current element of self and <code>tensor</code>) and might return
+a number, in which case it will be stored in self.</p>
+
+<p>Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="k">return</span> <span class="n">i</span> <span class="k">end</span><span class="p">)</span> <span class="c1">-- fill-up x</span>
+<span class="o">&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">&gt;</span> <span class="n">y</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="k">return</span> <span class="n">i</span> <span class="k">end</span><span class="p">)</span> <span class="c1">-- fill-up y</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span>
+
+ <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>
+ <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>
+ <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">y</span>
+
+ <span class="mi">1</span>
+ <span class="mi">2</span>
+ <span class="mi">3</span>
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+ <span class="mi">6</span>
+ <span class="mi">7</span>
+ <span class="mi">8</span>
+ <span class="mi">9</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">9</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">map</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span> <span class="k">return</span> <span class="n">xx</span><span class="o">*</span><span class="n">yy</span> <span class="k">end</span><span class="p">)</span> <span class="c1">-- element-wise multiplication</span>
+<span class="o">&gt;</span> <span class="o">=</span> <span class="n">x</span>
+
+  <span class="mi">1</span>   <span class="mi">4</span>   <span class="mi">9</span>
+ <span class="mi">16</span>  <span class="mi">25</span>  <span class="mi">36</span>
+ <span class="mi">49</span>  <span class="mi">64</span>  <span class="mi">81</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x3</span><span class="p">]</span>
+</code></pre></div>
+<p><a name="torch.Tensor.map2"/></p>
+
+<h3 id="toc_59">[self] map2(tensor1, tensor2, function(x, xt1, xt2))</h3>
+
+<p>Apply the given function to all elements of self, <code>tensor1</code> and <code>tensor2</code>. The number of elements of all tensors
+must match, but sizes do not matter.</p>
+
+<p>The function takes three numbers (the current element of self, <code>tensor1</code> and <code>tensor2</code>) and might return
+a number, in which case it will be stored in self.</p>
+
+<p>Example:</p>
+<div class="highlight"><pre><code class="lua language-lua" data-lang="lua"><span class="o">&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">z</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;</span> 
+<span class="o">&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="k">return</span> <span class="nb">math.cos</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="nb">math.cos</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">end</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">y</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="k">return</span> <span class="n">i</span> <span class="k">end</span><span class="p">)</span>
+<span class="o">&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">z</span><span class="p">:</span><span class="n">apply</span><span class="p">(</span><span class="k">function</span><span class="p">()</span> <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="k">return</span> <span class="n">i</span> <span class="k">end</span><span class="p">)</span>
+<span class="o">&gt;</span> 
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+ <span class="mf">0.2919</span>  <span class="mf">0.1732</span>  <span class="mf">0.9801</span>
+ <span class="mf">0.4272</span>  <span class="mf">0.0805</span>  <span class="mf">0.9219</span>
+ <span class="mf">0.5684</span>  <span class="mf">0.0212</span>  <span class="mf">0.8302</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+ <span class="mi">1</span>
+ <span class="mi">2</span>
+ <span class="mi">3</span>
+ <span class="mi">4</span>
+ <span class="mi">5</span>
+ <span class="mi">6</span>
+ <span class="mi">7</span>
+ <span class="mi">8</span>
+ <span class="mi">9</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">9</span><span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+ <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>
+ <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>
+ <span class="mi">7</span>  <span class="mi">8</span>  <span class="mi">9</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x3</span><span class="p">]</span>
+
+<span class="o">&gt;</span> 
+<span class="o">&gt;</span> <span class="n">x</span><span class="p">:</span><span class="n">map2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">)</span> <span class="k">return</span> <span class="n">xx</span><span class="o">+</span><span class="n">yy</span><span class="o">*</span><span class="n">zz</span> <span class="k">end</span><span class="p">)</span>
+<span class="o">&gt;</span> 
+<span class="o">&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+  <span class="mf">1.2919</span>   <span class="mf">4.1732</span>   <span class="mf">9.9801</span>
+ <span class="mf">16.4272</span>  <span class="mf">25.0805</span>  <span class="mf">36.9219</span>
+ <span class="mf">49.5684</span>  <span class="mf">64.0212</span>  <span class="mf">81.8302</span>
+<span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">DoubleTensor</span> <span class="n">of</span> <span class="n">dimension</span> <span class="mi">3</span><span class="n">x3</span><span class="p">]</span>
+</code></pre></div>
+          </section>
+      </div>
+      <script src="javascripts/scale.fix.js"></script>
+  </body>
+</html>

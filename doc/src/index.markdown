@@ -44,16 +44,16 @@ git merge -X ours template
 
 This will create a folder `doc/src`, that you can edit, and `doc/html`, that will be automatically built by Jekyll and that you will then publish.
 
-##Update HTML documentation for local browsing
+##Generate HTML
 
-After editting your Markdown files in `doc/src`, you want to update the browseable `doc/html` to be provided with your Torch package, by building the pages locally:
+After editting your Markdown files in `doc/src`, you need to convert it to HTML locally, with automatic Table of Contents, styles and layouts, using Jekyll: 
 
 ```bash
 cd doc/src
 bundle exec jekyll build --destination ../html
 ```
 
-Your users can now browse your documentation with their browser, opening at [doc/src/index.html].
+Your users can now browse your documentation with their browser, opening [doc/src/index.html], and you can distribute it along with your package.
 
 > **Optional but convenient**: while you edit, Jekyll can dynamically build your pages, refresh them, and serve them to [http://localhost:4000](http://localhost:4000):
 
@@ -61,6 +61,7 @@ Your users can now browse your documentation with their browser, opening at [doc
 cd doc/src
 bundle exec jekyll serve --destination ../html --watch
 ```
+
 
 ##Publish on Github Pages
 
@@ -77,9 +78,9 @@ Create a branch named `gh-pages`, where [Github Project Pages for content](https
 git subtree split --prefix doc/html --branch gh-pages
 ```
 
-###Push online
+###Merge and push online
 
-Now, everytime you have modified `doc/src` and updated locally the `doc/html` with Jekyll in your `master` branch, you just:
+Now, everytime you have modified `doc/src`, updated locally the `doc/html` with Jekyll, <b>and committed both to your `master` branch</b>, you just:
 
 1. Commit to your `master` branch the changes you just made:
 
@@ -122,6 +123,7 @@ To modify your documentation:
 
 ##Thanks
 
+* The [Torch team](http://torch.ch), for recently moving to MarkDown with their new distribution!
 * [Jekyll documentation](http://jekyllrb.com/docs/home/)
 * [Using Jekyll with Github pages](https://help.github.com/articles/using-jekyll-with-pages)
 * [FancyToC with Redcarpet plugin](http://jekyll.alphavice.com/source/_plugins) -- smart way to call Redcarpet's ToC generator from Jekyll

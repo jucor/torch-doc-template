@@ -15,8 +15,8 @@ class for handling numeric data. As with   pretty much anything in
 __Multi-dimensional matrix__
 
 A `Tensor` is a potentially multi-dimensional matrix. The number of
-dimensions is unlimited that can be created using
-[LongStorage](storage.md) with more dimensions.
+dimensions that can be created using [LongStorage](storage.md) is
+unlimited.
 
 Example:
 
@@ -31,9 +31,9 @@ Example:
 
 The number of dimensions of a `Tensor` can be queried by
 [nDimension()](#torch.Tensor.nDimension) or
-[dim()](#torch.Tensor.dim). Size of the `i-th` dimension is
+[dim()](#torch.Tensor.dim). The size of the `i-th` dimension is
 returned by [size(i)](#torch.Tensor.size). A [LongStorage](storage.md)
-containing all the dimensions can be returned by
+containing all the dimensions is returned by
 [size()](#torch.Tensor.size).
 
 ```lua
@@ -70,7 +70,7 @@ accessing the element `(3,4,5)` can be done by
 ```lua
 = x[3][4][5]
 ```
-or equivalently (but slowly!)
+or equivalently (but slower!)
 
 ```lua
 = x:storage()[x:storageOffset()
@@ -122,7 +122,7 @@ This is exactly like in C (and not `Fortran`).
 
 __Tensors of different types__
 
-Actually, several types of `Tensor` exists:
+Actually, several types of `Tensor` exist:
 
 ```lua
 ByteTensor -- contains unsigned chars
@@ -139,7 +139,7 @@ Other Tensor types are useful if you want to save memory space.
 __Default Tensor type__
 
 For convenience, _an alias_ `torch.Tensor` is provided, which allows the user to write
-type-independent scripts, which can then ran after choosing the desired Tensor type with
+type-independent scripts, which can then be run after choosing the desired Tensor type with
 a call like
 
 ```lua
@@ -193,9 +193,9 @@ just replace `Tensor` by the name of the Tensor variant (like `CharTensor`).
 <a name="torch.Tensor"/>
 ## Tensor constructors ##
 
-Tensor constructors, create new Tensor object, optionally, allocating
+Tensor constructors create new Tensor object, optionally allocating
 new memory. By default the elements of a newly allocated memory are
-not initialized, therefore, might contain arbitrary numbers. Here are
+not initialized, therefore they might contain arbitrary numbers. Here are
 several ways to construct a new `Tensor`.
 
 <a name="torch.Tensor"/>
@@ -207,14 +207,14 @@ Returns an empty tensor.
 ### torch.Tensor(tensor) ###
 
 Returns a new tensor which reference the same
-[Storage](#torch.Tensor.storage) than the given `tensor`. The
+[Storage](#torch.Tensor.storage) as the given `tensor`. The
 [size](#torch.Tensor.size), [stride](#torch.Tensor.stride), and
-[storage offset](#torch.Tensor.storageOffset) are the same than the
+[storage offset](#torch.Tensor.storageOffset) are the same as the
 given tensor.
 
 The new `Tensor` is now going to "view" the same [storage](storage.md)
 as the given `tensor`. As a result, any modification in the elements
-of the `Tensor` will have a impact on the elements of the given
+of the `Tensor` will have an impact on the elements of the given
 `tensor`, and vice-versa. No memory copy!
 
 ```lua
@@ -244,7 +244,7 @@ of the `Tensor` will have a impact on the elements of the given
 <a name="torch.Tensor"/>
 ### torch.Tensor(sz1 [,sz2 [,sz3 [,sz4]]]]) ###
 
-Create a tensor up to 4 dimensions. The tensor size will be `sz1 x sz2 x sx3 x sz4`.
+Create a tensor of up to 4 dimensions. The tensor size will be `sz1 x sz2 x sx3 x sz4`.
 
 <a name="torch.Tensor"/>
 ### torch.Tensor(sizes, [strides]) ###
@@ -252,7 +252,7 @@ Create a tensor up to 4 dimensions. The tensor size will be `sz1 x sz2 x sx3 x s
 Create a tensor of any number of dimensions. The
 [LongStorage](storage.md) `sizes` gives the size in each dimension of
 the tensor. The optional [LongStorage](storage.md) `strides` gives the
-jump necessary to go from one element to the next one in the each
+jump necessary to go from one element to the next in each
 dimension. Of course, `sizes` and `strides` must have the same
 number of elements. If not given, or if some elements of `strides`
 are _negative_, the [stride()](#torch.Tensor.stride) will be
